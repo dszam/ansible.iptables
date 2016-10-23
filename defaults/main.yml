@@ -1,0 +1,30 @@
+---
+# defaults file for sbaerlocher.iptables
+
+iptables_filter_input_policy: drop
+iptables_filter_forward_policy: accept
+iptables_filter_output_policy: accept
+
+iptables_filter_rules:
+  - chain: input
+    protocol: tcp
+    source_address: 0.0.0.0/0
+    destination_port: 22
+    comment: OpenSSH
+    target: accept
+    
+iptables_nat_prerouting_policy: accept
+iptables_nat_input_policy: accept
+iptables_nat_output_policy: accept
+iptables_nat_postrouting_policy: accept
+
+iptables_nat_rules: []
+
+iptables6_filter_input_policy: drop
+iptables6_filter_forward_policy: drop
+iptables6_filter_output_policy: accept
+
+iptables6_nat_prerouting_policy: accept
+iptables6_nat_input_policy: accept
+iptables6_nat_output_policy: accept
+iptables6_nat_postrouting_policy: accept
