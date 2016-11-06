@@ -7,19 +7,20 @@
 :OUTPUT {{ iptables_filter_output_policy|upper }} [0:0]
 
 -A INPUT -i lo -j ACCEPT
--A INPUT -m state --state ESTABLISHED,RELATED -j ACCEPT
--A INPUT -m state --state INVALID -j DROP
+-A INPUT -i lo -j ACCEPT
+-A INPUT -m conntrack --ctstate ESTABLISHED,RELATED -j ACCEPT
+-A INPUT -m conntrack --ctstate INVALID -j DROP
 {%- for rule in iptables_filter_rules -%}
 {% if rule.chain|lower == "input" -%}
 {% if rule.protocol is defined and rule.protocol|lower == "icmp" %}
--A {{ rule.chain|upper }} {% if rule.in_interface is defined -%} -i {{ rule.in_interface }} {% endif -%} -p {{ rule.protocol|lower }} {% if rule.icmp_type is defined -%} --icmp-type {{ rule.icmp_type }} {% endif -%}  {% if rule.comment is defined -%} -m comment --comment "{{ rule.comment }}" {% endif -%} -j {{ rule.target|upper }}
+-A {{ rule.chain|upper }} {% if rule.in_interface is defined -%} -i {{ rule.in_interface }} {% endif -%} -p {{ rule.protocol|lower }} {% if rule.icmp_type is defined -%} --icmp-type {{ rule.icmp_type }} {% endif -%} -m conntrack --ctstate NEW {% if rule.comment is defined -%} -m comment --comment "{{ rule.comment }}" {% endif -%} -j {{ rule.target|upper }}
 {% else %}
--A {{ rule.chain|upper }} {% if rule.in_interface is defined -%} -i {{ rule.in_interface }} {% endif -%} {% if rule.protocol is defined -%} -p {{ rule.protocol|lower }} {% endif -%} {% if rule.source_address is defined -%} -s {{ rule.source_address }} {% endif -%} {% if rule.source_port is defined -%} --sport {{ rule.source_port }} {% endif -%} {% if rule.destination_address is defined -%} -d {{ rule.destination_address }} {% endif -%} {% if rule.destination_port is defined -%} --dport {{ rule.destination_port }} {% endif -%} {% if rule.protocol is defined and rule.protocol == "tcp" -%} --syn {% endif -%}  {% if rule.comment is defined -%} -m comment --comment "{{ rule.comment }}" {% endif -%} -j {{ rule.target|upper }}
+-A {{ rule.chain|upper }} {% if rule.in_interface is defined -%} -i {{ rule.in_interface }} {% endif -%} {% if rule.protocol is defined -%} -p {{ rule.protocol|lower }} {% endif -%} {% if rule.source_address is defined -%} -s {{ rule.source_address }} {% endif -%} {% if rule.source_port is defined -%} --sport {{ rule.source_port }} {% endif -%} {% if rule.destination_address is defined -%} -d {{ rule.destination_address }} {% endif -%} {% if rule.destination_port is defined -%} --dport {{ rule.destination_port }} {% endif -%} {% if rule.protocol is defined and rule.protocol == "tcp" -%} --syn {% endif -%} -m conntrack --ctstate NEW {% if rule.comment is defined -%} -m comment --comment "{{ rule.comment }}" {% endif -%} -j {{ rule.target|upper }}
 {%- endif %}
 {%- endif %}
 {%- endfor %}
 
--A FORWARD -m state --state ESTABLISHED,RELATED -j ACCEPT
+-A FORWARD -m conntrack --ctstate ESTABLISHED,RELATED -j ACCEPT
 {%- for rule in iptables_filter_rules -%}
 {% if rule.chain|lower == "forward" -%}
 {% if rule.protocol is defined and rule.protocol|lower == "icmp" %}
@@ -54,7 +55,7 @@ COMMIT
 {%- endif %}
 
 {% if iptables_nat_rules is defined  and iptables_nat_rules|length > 0  %}
--A PREROUTING -m state --state ESTABLISHED,RELATED -j ACCEPT
+-A PREROUTING -m conntrack --ctstate ESTABLISHED,RELATED -j ACCEPT
 {%- for rule in iptables_nat_rules -%}
 {% if rule.chain|lower == "prerouting" -%}
 {% if rule.protocol is defined and rule.protocol|lower == "icmp" %}
@@ -89,7 +90,7 @@ COMMIT
 {%- endfor %}
 
 {% if iptables_nat_rules is defined and iptables_nat_rules|length > 0 %}
--A POSTROUTING -m state --state ESTABLISHED,RELATED -j ACCEPT
+-A POSTROUTING -m conntrack --ctstate ESTABLISHED,RELATED -j ACCEPT
 {%- for rule in iptables_nat_rules -%}
 {% if rule.chain|lower == "postrouting" -%}
 {% if rule.protocol is defined and rule.protocol|lower == "icmp" %}
