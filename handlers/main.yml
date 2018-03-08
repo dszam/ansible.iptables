@@ -2,7 +2,44 @@
 # handlers file for sbaerlocher.iptables
 
 - name: restart iptables
-  service: name=iptables state=restarted
+  become: true
+  service:
+    name: iptables
+    state: restarted
+  when: ansible_os_family not 'Debian'
+
+
+- name: start iptables
+  become: true
+  service:
+    name: iptables
+    state: started
+  when: ansible_os_family not 'Debian'
+
+- name: enable iptables
+  become: true
+  service:
+    name: iptables
+    enabled: true
+  when: ansible_os_family not 'Debian'
 
 - name: restart ip6tables
-  service: name=ip6tables state=restarted
+  become: true
+  service:
+    name: ip6tables
+    state: restarted
+  when: ansible_os_family not 'Debian'
+
+- name: start ip6tables
+  become: true
+  service:
+    name: ip6tables
+    state: started
+  when: "'scope' in ansible_default_ipv6 and ansible_default_ipv6.scope == 'global' and ansible_os_family not 'Debian'"
+
+- name: enable ip6tables
+  become: true
+  service:
+    name: ip6tables
+    enabled: true
+  when: "'scope' in ansible_default_ipv6 and ansible_default_ipv6.scope == 'global' and ansible_os_family not 'Debian'"

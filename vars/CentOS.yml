@@ -2,5 +2,8 @@
 # vars file for sbaerlocher.iptables
 
 iptables_packages:
-  - iptables 
+  - iptables
   - iptables-services
+
+iptables_configuration: /etc/sysconfig/iptables
+iptables6_configuration: /etc/sysconfig/ip6tables

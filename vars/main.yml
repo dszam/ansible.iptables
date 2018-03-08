@@ -1,4 +1,0 @@
----
-# vars file for sbaerlocher.iptables
-
-iptables_packages: []

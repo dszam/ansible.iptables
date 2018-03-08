@@ -12,7 +12,7 @@ iptables_filter_rules:
     destination_port: 22
     comment: OpenSSH
     target: accept
-    
+
 iptables_nat_prerouting_policy: accept
 iptables_nat_input_policy: accept
 iptables_nat_output_policy: accept

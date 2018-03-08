@@ -1,5 +1,6 @@
 # Ansible Role: iptables
-[![Build Status](https://travis-ci.org/sbaerlocher/ansible.iptables.svg?branch=master)](https://travis-ci.org/sbaerlocher/ansible.iptables)
+
+[![Build Status](https://travis-ci.org/sbaerlocher/ansible.iptables.svg?branch=master)](https://travis-ci.org/projectgroup/ansible.iptables) [![license](https://img.shields.io/github/license/mashape/apistatus.svg)](https://sbaerlo.ch/licence) [![Ansible Galaxy](http://img.shields.io/badge/ansible--galaxy-iptables-blue.svg)](https://galaxy.ansible.com/sbaerlocher/iptables)
 
 ## Description
 
@@ -7,8 +8,8 @@ Installs and configures iptables.
 
 ## Installation
 
-```
-$ ansible-galaxy install sbaerlocher.iptables
+```bash
+ansible-galaxy install sbaerlocher.iptables
 ```
 
 ## Requirements
@@ -47,7 +48,9 @@ None
   roles:
      - sbaerlocher.iptables
 ```
+
 Install and configure iptables to disallow ICMP, allow OpenSSH and HTTP
+
 ```yaml
 - hosts: all
   vars:
@@ -69,6 +72,7 @@ Install and configure iptables to disallow ICMP, allow OpenSSH and HTTP
 ```
 
 Install and configure iptables with a port forward rule for HTTP
+
 ```yaml
 - hosts: all
   vars:
@@ -92,6 +96,11 @@ Install and configure iptables with a port forward rule for HTTP
 
 ## Changelog
 
+### 2.0
+
+* new strucktur
+* new tests
+
 ### 1.0
 
 * Initial release
@@ -99,11 +108,11 @@ Install and configure iptables with a port forward rule for HTTP
 ## Author
 
 * [Simon Bärlocher](https://sbaerlocher.ch)
- 
+
 ## License
 
 This project is under the MIT License. See the [LICENSE](https://sbaerlo.ch/licence) file for the full license text.
 
 ## Copyright
 
-(c) 2016, Simon Bärlocher
+(c) 2018, Simon Bärlocher
