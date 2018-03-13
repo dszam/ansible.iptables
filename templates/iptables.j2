@@ -15,7 +15,7 @@
 {% if rule.protocol is defined and rule.protocol|lower == "icmp" %}
 -A {{ rule.chain|upper }} {% if rule.in_interface is defined -%} -i {{ rule.in_interface }} {% endif -%} -p {{ rule.protocol|lower }} {% if rule.icmp_type is defined -%} --icmp-type {{ rule.icmp_type }} {% endif -%} -m conntrack --ctstate NEW {% if rule.comment is defined -%} -m comment --comment "{{ rule.comment }}" {% endif -%} -j {{ rule.target|upper }}
 {% else %}
--A {{ rule.chain|upper }} {% if rule.in_interface is defined -%} -i {{ rule.in_interface }} {% endif -%} {% if rule.protocol is defined -%} -p {{ rule.protocol|lower }} {% endif -%} {% if rule.source_address is defined -%} -s {{ rule.source_address }} {% endif -%} {% if rule.source_port is defined -%} --sport {{ rule.source_port }} {% endif -%} {% if rule.destination_address is defined -%} -d {{ rule.destination_address }} {% endif -%} {% if rule.destination_port is defined -%} --dport {{ rule.destination_port }} {% endif -%} {% if rule.protocol is defined and rule.protocol == "tcp" -%} --syn {% endif -%} -m conntrack --ctstate NEW {% if rule.comment is defined -%} -m comment --comment "{{ rule.comment }}" {% endif -%} -j {{ rule.target|upper }}
+-A {{ rule.chain|upper }} {% if rule.in_interface is defined -%} -i {{ rule.in_interface }} {% endif -%} {% if rule.protocol is defined -%} -p {{ rule.protocol|lower }} {% endif -%} {% if rule.source_address is defined -%} -s {{ rule.source_address }} {% endif -%} {% if rule.source_port is defined -%} --sport {{ rule.source_port }} {% endif -%} {% if rule.destination_address is defined -%} -d {{ rule.destination_address }} {% endif -%} {% if rule.destination_port is defined -%} -m multiport --dport {{ rule.destination_port }} {% endif -%} {% if rule.protocol is defined and rule.protocol == "tcp" -%} --syn {% endif -%} -m conntrack --ctstate NEW {% if rule.comment is defined -%} -m comment --comment "{{ rule.comment }}" {% endif -%} -j {{ rule.target|upper }}
 {%- endif %}
 {%- endif %}
 {%- endfor %}
@@ -46,16 +46,14 @@ COMMIT
 
 {% if iptables_nat_rules is defined  and iptables_nat_rules|length > 0  %}
 *nat
-:PREROUTING {{ iptables_nat_prerouting_policy|upper }} [0:0]
+:PREROUTING {{ iptables_nat_prerouting_policy|upper }} [4482687:409962457]
 {%- if ansible_distribution|lower != 'centos' %}
-:INPUT {{ iptables_nat_input_policy|upper }} [0:0]
+:INPUT {{ iptables_nat_input_policy|upper }} [25114:2381270]
 {%- endif %}
-:OUTPUT {{ iptables_nat_output_policy|upper }} [0:0]
-:POSTROUTING {{ iptables_nat_postrouting_policy|upper }} [0:0]
+:OUTPUT {{ iptables_nat_output_policy|upper }} [25986:1656681]
+:POSTROUTING {{ iptables_nat_postrouting_policy|upper }} [2906464:297594330]
 {%- endif %}
-
 {% if iptables_nat_rules is defined  and iptables_nat_rules|length > 0  %}
--A PREROUTING -m conntrack --ctstate ESTABLISHED,RELATED -j ACCEPT
 {%- for rule in iptables_nat_rules -%}
 {% if rule.chain|lower == "prerouting" -%}
 {% if rule.protocol is defined and rule.protocol|lower == "icmp" %}
@@ -66,7 +64,6 @@ COMMIT
 {%- endif %}
 {%- endfor %}
 {%- endif %}
-
 {%- if ansible_distribution|lower != 'centos' %}
 {%- for rule in iptables_nat_rules -%}
 {% if rule.chain|lower == "input" -%}
@@ -78,7 +75,6 @@ COMMIT
 {%- endif %}
 {%- endfor %}
 {%- endif %}
-
 {%- for rule in iptables_nat_rules -%}
 {% if rule.chain|lower == "output" -%}
 {% if rule.protocol is defined and rule.protocol|lower == "icmp" %}
@@ -88,9 +84,7 @@ COMMIT
 {%- endif %}
 {%- endif %}
 {%- endfor %}
-
 {% if iptables_nat_rules is defined and iptables_nat_rules|length > 0 %}
--A POSTROUTING -m conntrack --ctstate ESTABLISHED,RELATED -j ACCEPT
 {%- for rule in iptables_nat_rules -%}
 {% if rule.chain|lower == "postrouting" -%}
 {% if rule.protocol is defined and rule.protocol|lower == "icmp" %}
@@ -101,7 +95,6 @@ COMMIT
 {%- endif %}
 {%- endfor %}
 {%- endif %}
-
 {% if iptables_nat_rules is defined  and iptables_nat_rules|length > 0  %}
 COMMIT
 {%- endif %}
