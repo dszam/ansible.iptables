@@ -4,42 +4,37 @@
 - name: restart iptables
   become: true
   service:
-    name: iptables
+    name: "{{ iptables_service }}"
     state: restarted
-  when: ansible_os_family not 'Debian'
-
 
 - name: start iptables
   become: true
   service:
-    name: iptables
+    name: "{{ iptables_service }}"
     state: started
-  when: ansible_os_family not 'Debian'
 
 - name: enable iptables
   become: true
   service:
-    name: iptables
+    name: "{{ iptables_service }}"
     enabled: true
-  when: ansible_os_family not 'Debian'
 
 - name: restart ip6tables
   become: true
   service:
-    name: ip6tables
+    name: "{{ ip6tables_service }}"
     state: restarted
-  when: ansible_os_family not 'Debian'
 
 - name: start ip6tables
   become: true
   service:
-    name: ip6tables
+    name: "{{ ip6tables_service }}"
     state: started
-  when: "'scope' in ansible_default_ipv6 and ansible_default_ipv6.scope == 'global' and ansible_os_family not 'Debian'"
+  when: "'scope' in ansible_default_ipv6 and ansible_default_ipv6.scope == 'global'"
 
 - name: enable ip6tables
   become: true
   service:
-    name: ip6tables
+    name: "{{ ip6tables_service }}"
     enabled: true
-  when: "'scope' in ansible_default_ipv6 and ansible_default_ipv6.scope == 'global' and ansible_os_family not 'Debian'"
+  when: "'scope' in ansible_default_ipv6 and ansible_default_ipv6.scope == 'global'"

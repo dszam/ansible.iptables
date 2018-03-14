@@ -18,6 +18,23 @@
     - configuration
     - packages
 
+- name: include distribution tasks
+  include_tasks: "{{ loop_distribution }}"
+  with_first_found:
+    - files:
+        - "{{ ansible_distribution }}-{{ ansible_distribution_version }}.yml"
+        - "{{ ansible_distribution }}-{{ ansible_distribution_major_version }}.yml"
+        - "{{ ansible_distribution }}.yml"
+        - "{{ ansible_os_family }}.yml"
+        - "defaults.yml"
+      paths:
+        - "distribution"
+  loop_control:
+    loop_var: loop_distribution
+  tags:
+    - configuration
+    - packages
+
 - name: install iptables
   become: true
   package:
@@ -49,7 +66,7 @@
   become: true
   template:
     src: ip6tables.j2
-    dest: "{{ iptables6_configuration }}"
+    dest: "{{ ip6tables_configuration }}"
     owner: root
     group: root
     mode: 0600
