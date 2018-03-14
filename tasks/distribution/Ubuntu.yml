@@ -2,6 +2,7 @@
 # tasks file for sbaerlocher.iptables
 
 - name: Ubuntu | remove ufw
+  become: true
   apt:
     name: ufw
     state: absent
