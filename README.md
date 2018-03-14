@@ -96,6 +96,10 @@ Install and configure iptables with a port forward rule for HTTP
 
 ## Changelog
 
+### 2.2
+
+* fix problems with ubuntu
+
 ### 2.1
 
 * fix problems with centos
