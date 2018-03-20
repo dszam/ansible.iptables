@@ -29,13 +29,14 @@ This role requires Ansible 2 or higher.
 | iptables_nat_output_policy       | accept                                                                                                | IPv4 default nat output policy              |
 | iptables_nat_postrouting_policy  | accept                                                                                                | IPv4 default nat postrouting policy         |
 | iptables_nat_rules               | []                                                                                                    | Array of nat rules represented as hashes    |
-| iptables6_filter_input_policy    | drop                                                                                                  | IPv6 default filter input policy            |
-| iptables6_filter_forward_policy  | drop                                                                                                  | IPv6 default filter forward policy          |
-| iptables6_filter_output_policy   | accept                                                                                                | IPv6 default filter output policy           |
-| iptables6_nat_prerouting_policy  | accept                                                                                                | IPv6 default nat prerouting policy          |
-| iptables6_nat_input_policy       | accept                                                                                                | IPv6 default nat input policy               |
-| iptables6_nat_output_policy      | accept                                                                                                | IPv6 default nat output policy              |
-| iptables6_nat_postrouting_policy | accept                                                                                                | IPv6 default nat postrouting policy         |
+| ip6tables_filter_rules           | []                                                                                                    | Array of filter rules represented as hashes |
+| ip6tables_filter_input_policy    | drop                                                                                                  | IPv6 default filter input policy            |
+| ip6tables_filter_forward_policy  | drop                                                                                                  | IPv6 default filter forward policy          |
+| ip6tables_filter_output_policy   | accept                                                                                                | IPv6 default filter output policy           |
+| ip6tables_nat_prerouting_policy  | accept                                                                                                | IPv6 default nat prerouting policy          |
+| ip6tables_nat_input_policy       | accept                                                                                                | IPv6 default nat input policy               |
+| ip6tables_nat_output_policy      | accept                                                                                                | IPv6 default nat output policy              |
+| ip6tables_nat_postrouting_policy | accept                                                                                                | IPv6 default nat postrouting policy         |
 
 ## Dependencies
 
@@ -95,6 +96,10 @@ Install and configure iptables with a port forward rule for HTTP
 ```
 
 ## Changelog
+
+### 2.3
+
+* add support for ipv6
 
 ### 2.2
 
