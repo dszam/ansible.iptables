@@ -20,11 +20,11 @@ iptables_nat_postrouting_policy: accept
 
 iptables_nat_rules: []
 
-iptables6_filter_input_policy: drop
-iptables6_filter_forward_policy: drop
-iptables6_filter_output_policy: accept
+ip6tables_filter_input_policy: drop
+ip6tables_filter_forward_policy: drop
+ip6tables_filter_output_policy: accept
 
-iptables6_nat_prerouting_policy: accept
-iptables6_nat_input_policy: accept
-iptables6_nat_output_policy: accept
-iptables6_nat_postrouting_policy: accept
+ip6tables_nat_prerouting_policy: accept
+ip6tables_nat_input_policy: accept
+ip6tables_nat_output_policy: accept
+ip6tables_nat_postrouting_policy: accept
