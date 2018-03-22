@@ -20,6 +20,8 @@ iptables_nat_postrouting_policy: accept
 
 iptables_nat_rules: []
 
+ip6tables_filter_rules: []
+
 ip6tables_filter_input_policy: drop
 ip6tables_filter_forward_policy: drop
 ip6tables_filter_output_policy: accept
